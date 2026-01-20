@@ -1,0 +1,21 @@
+# Projecte-Automatitzacio-Mascota
+#Proves de codi (lectura sensor de moviment)
+
+int pirPin = 14;
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(pirPin, INPUT);
+}
+
+void loop() {
+  int estat = digitalRead(pirPin);
+
+  if (estat == HIGH) {
+    Serial.println("Moviment detectat");
+  } else {
+    Serial.println("Sense moviment");
+  }
+
+  delay(300);
+}
