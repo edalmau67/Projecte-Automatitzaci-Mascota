@@ -2,6 +2,7 @@
 #Proves de codi (lectura sensor de moviment)
 
 int pirPin = 14;
+bool movimentAnterior = false;
 
 void setup() {
   Serial.begin(115200);
@@ -9,13 +10,16 @@ void setup() {
 }
 
 void loop() {
-  int estat = digitalRead(pirPin);
+  bool moviment = digitalRead(pirPin);
 
-  if (estat == HIGH) {
-    Serial.println("Moviment detectat");
-  } else {
-    Serial.println("Sense moviment");
+  if (moviment && !movimentAnterior) {
+    Serial.println("Inici de moviment");
   }
 
-  delay(300);
+  if (!moviment && movimentAnterior) {
+    Serial.println("Fi de moviment");
+  }
+
+  movimentAnterior = moviment;
+  delay(200);
 }
