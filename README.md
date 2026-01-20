@@ -1,1 +1,1 @@
-# Projecte-Automatitzaci-Mascota
+# Projecte-Automatitzacio-Mascota
