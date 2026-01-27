@@ -1,25 +1,37 @@
-# Projecte-Automatitzacio-Mascota
-#Proves de codi (lectura sensor de moviment)
+// Definición de pines
+const int trigPin = 5; // Pin Trigger del HC-SR04
+const int echoPin = 18; // Pin Echo del HC-SR04
 
-int pirPin = 14;
-bool movimentAnterior = false;
+// Variables
+long duracion;
+float distanciaCm;
 
 void setup() {
-  Serial.begin(115200);
-  pinMode(pirPin, INPUT);
+  Serial.begin(115200); // Iniciar comunicación serial
+  pinMode(trigPin, OUTPUT); // Pin como salida
+  pinMode(echoPin, INPUT); // Pin como entrada
 }
 
 void loop() {
-  bool moviment = digitalRead(pirPin);
-
-  if (moviment && !movimentAnterior) {
-    Serial.println("Inici de moviment");
-  }
-
-  if (!moviment && movimentAnterior) {
-    Serial.println("Fi de moviment");
-  }
-
-  movimentAnterior = moviment;
-  delay(200);
+  // Limpiar el trigger
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  
+  // Enviar pulso de 10 microsegundos
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  // Leer el tiempo de eco (en microsegundos)
+  duracion = pulseIn(echoPin, HIGH);
+  
+  // Calcular la distancia (velocidad del sonido: 343m/s o 0.0343 cm/us)
+  distanciaCm = duracion * 0.0343 / 2;
+  
+  // Imprimir en el monitor serial
+  Serial.print("Distancia: ");
+  Serial.print(distanciaCm);
+  Serial.println(" cm");
+  
+  delay(500); // Esperar medio segundo para la siguiente medición
 }
